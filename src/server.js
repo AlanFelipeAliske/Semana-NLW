@@ -5,7 +5,7 @@ const proffys =[
    whatsapp:"41995309999", 
    bio:"Entusiasta das melhores tecnologias de química avançada.<br><br>Apaixonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por uma das minhas explosões.", 
    subject:"Química", 
-   cost:"20", 
+   cost:"20.00", 
    weekday:[0], 
    time_from:[720], 
    time_to:[1220]
@@ -15,21 +15,46 @@ const proffys =[
    whatsapp:"41995309999", 
    bio:"Entusiasta das melhores tecnologias de química avançada.<br><br>Apaixonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por uma das minhas explosões.", 
    subject:"Química", 
-   cost:"20", 
+   cost:"20.00", 
    weekday:[0], 
    time_from:[720], 
    time_to:[1220]
    }
 ]
  
+const subjects = [
+"Artes",
+"Biologia",
+"Ciências",
+"Educação física",
+"Física",
+"Geografia",
+"História",
+"Matemática",
+"Português",
+"Química"
+
+]
+
+const weekdays = [
+  "Domingo",
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+]
+
 function pageLanding(req, res){
-  return res.sendFile("index.html")
+  return res.render("index.html")
 }
 function pageStudy(req, res){
-  return res.sendFile("study.html")
+  const filters = req.query
+  return res.render("study.html", { proffys, filters, subjects, weekdays })
 }
 function pageGiveClasses(req, res){
-  return res.sendFile("give-classes.html")
+  return res.render("give-classes.html")
 }
 
 const express = require('express')
@@ -42,7 +67,8 @@ nunjucks.configure('src/views',{
   noCache: true,
 })
 
-server.use(express.static("public"))
+server
+.use(express.static("public"))
 .get("/", pageLanding)
 .get("/study", pageStudy)
 .get("/give-classes", pageGiveClasses)
